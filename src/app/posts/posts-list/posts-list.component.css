@@ -1,0 +1,26 @@
+mat-accordion {
+  margin-top: 1rem;
+  display: block;
+}
+
+mat-spinner {
+  margin: auto;
+}
+
+mat-paginator{
+  margin-top: 1rem;
+}
+
+.info-text {
+  text-align: center;
+}
+
+.image-post {
+  width: 100%;
+}
+
+.image-post img {
+  width: 100%;
+  box-shadow: 1px 1px 5px rgba(0, 0, 0, 0.7);
+}
+
