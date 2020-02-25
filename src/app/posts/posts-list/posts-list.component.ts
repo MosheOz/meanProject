@@ -35,6 +35,7 @@ export class PostsListComponent implements OnInit, OnDestroy {
       this.totalPosts = postsData.postsCount;
       this.posts = postsData.posts;
     });
+
     this.isUserAuthenticated = this.authService.getIsUserAutheticated();
     this.isAuthSub = this.authService.getStatusListener().subscribe(isAuth => {
       this.isUserAuthenticated = isAuth;
