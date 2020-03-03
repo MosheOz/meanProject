@@ -40,10 +40,12 @@ router.post(
     const post = new Post({
       title: req.body.title,
       content: req.body.content,
-      imagePath: url + "/images/" + req.file.filename
+      imagePath: url + "/images/" + req.file.filename,
+      creator: req.userData.userId
     });
 
-    post.save().then(result => {
+    post.save()
+    .then(result => {
       res.status(201).json({
         message: "The post added successfuly",
         post: {
@@ -51,7 +53,12 @@ router.post(
           id: result._id
         }
       });
-    });
+    })
+    .catch(error => {
+      res.status(500).json({
+        message: "Creating post failed!"
+      })
+    })
   }
 );
 
@@ -71,21 +78,39 @@ router.put(
       content: req.body.content,
       imagePath: imagePath
     });
-    console.log(post);
-    Post.updateOne({ _id: req.params.id }, post).then(result => {
-      res.status(200).json({ message: "Post editted successfully" });
-    });
+
+    Post.updateOne(
+      { _id: req.params.id, creator: req.userData.userId },
+      post
+    ).then(result => {
+      if (result.nModified > 0) {
+        res.status(200).json({ message: "Post editted successfully" });
+      } else {
+        res.status(401).json({ message: "Unauthorized!" });
+      }
+    })
+    .catch(error => {
+      res.status(500).json({
+        message: "Updating post failed!"
+      })
+    })
   }
 );
 
 router.get("/:id", (req, res, next) => {
-  Post.findById(req.params.id).then(post => {
+  Post.findById(req.params.id)
+  .then(post => {
     if (post) {
       res.status(200).json(post);
     } else {
       res.status(404).json("Post not found!");
     }
-  });
+  })
+  .catch(error => {
+    res.status(500).json({
+      message: "Failed to fetch data!"
+    })
+  })
 });
 
 router.get("", (req, res, next) => {
@@ -109,13 +134,26 @@ router.get("", (req, res, next) => {
         posts: postsFetched,
         maxPosts: count
       });
+    })
+    .catch(error => {
+      res.status(500).json({
+        message: "Failed to fetch data!"
+      })
     });
 });
 
 router.delete("/:id", checkAuth, (req, res, next) => {
   const id = req.params.id;
-  Post.deleteOne({ _id: id }).then(response => {
-    res.status(200).json({ message: "The Item Deleted" });
+  Post.deleteOne({ _id: id, creator: req.userData.userId }).then(response => {
+    if (response.n > 0) {
+      res.status(200).json({ message: "The Item Deleted" });
+    } else {
+      res.status(401).json({ message: "Unauthrized!" });
+    }
+  }).catch(error => {
+    res.status(500).json({
+      message: "Failed to delete!"
+    })
   });
 });
 
