@@ -9,7 +9,7 @@ const userRequests = require("./routes/user");
 
 mongoose
   .connect(
-    "mongodb+srv://Moshe:QDeSONypFapJuP2L@cluster0-mkmpx.mongodb.net/mean-project-db?retryWrites=true&w=majority",
+    "mongodb+srv://Moshe:" + process.env.MONGO_PW + "@cluster0-mkmpx.mongodb.net/mean-project-db?retryWrites=true&w=majority",
     { useNewUrlParser: true }
   )
   .then(() => console.log("You Are Connected To DB!"))

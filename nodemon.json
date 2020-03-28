@@ -1,0 +1,6 @@
+{
+  "env": {
+    "MONGO_PW": "QDeSONypFapJuP2L",
+    "JWT_KEY": "secret_key_should_be_longer"
+  }
+}
