@@ -1,5 +1,7 @@
 # MeanProject
 
+<b> ----- The project host by AWS server at this link:  http://angular-noed-mean.s3-website.us-east-2.amazonaws.com/ ---- </b>
+
 This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 8.3.4.
 
 ## Development server
